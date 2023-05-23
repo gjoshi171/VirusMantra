@@ -1,0 +1,20 @@
+const mongoose= require("mongoose")
+
+const UserDetailsPlasmaSchema = new mongoose.Schema({
+  
+    fullName: String,
+    email: String,
+    password: String,
+    city: String,
+    state: String,
+    country: String,
+    contactNo: String,
+    fullAddress: String,
+    bloodType:String,
+},
+{
+    Collection: "userInfoPlasma"
+}
+);
+
+mongoose.model("userInfoPlasma", UserDetailsPlasmaSchema)
