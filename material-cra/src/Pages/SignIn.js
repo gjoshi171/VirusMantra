@@ -57,34 +57,35 @@ export default function SignIn() {
     const email = data.get("email");
     const password = data.get("password");
 
-    history.push("/getDonar");
 
-    // try {
-    //   const response = await fetch("https://localhost:8081/register", {
-    //     method: "POST",
-    //     crossDomain:true,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Accept: "application/json",
-    //       "Access-Control-Allow-Origin":"*",
-    //     },
-    //     body: JSON.stringify({ email, password }),
-    //   });
 
-    //   if (response.ok) {
-    //     // Login successful, perform necessary actions
-    //     console.log("Logged in successfully");
-    //     // Redirect to the home page
-    //     // window.location.href = "/home";
-    //   } else {
-    //     // Login failed
-    //     const errorData = await response.json();
-    //     setError(errorData.message);
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   setError("An error occurred. Please try again.");
-    // }
+    try {
+      const response = await fetch("http://localhost:8081/login", {
+        method: "POST",
+        crossDomain:true,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin":"*",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      if (response.ok) { 
+        // Login successful, perform necessary actions
+        console.log("Logged in successfully");
+        history.push("/getDonar");
+        // Redirect to the home page
+        // window.location.href = "/home";
+      } else {
+        // Login failed
+        const errorData = await response.json();
+        setError(errorData.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (

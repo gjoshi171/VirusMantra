@@ -50,16 +50,14 @@ export default function BasicTable({ onUserStage }) {
   const [bloodType, setBloodType] = useState("");
   const [filterDonorData, setFilterDonorData] = useState(donorData);
 
-  // useEffect(() => {
-  //   getFetch();
-  // }, []);
 
   useEffect(() => {
     setFilterDonorData(donorData);
   }, [donorData]);
 
   const getFetch = async () => {
-    const response = await fetch("http://localhost:8081/getDonar/:city/:bloodType");
+    if(!city || !bloodType) return
+    const response = await fetch(`http://localhost:8081/getDonar/${city}/${bloodType}`);
     const jsonData = await response.json();
     console.log("Getting data: ", jsonData);
     setDonorData(jsonData);
@@ -126,36 +124,6 @@ export default function BasicTable({ onUserStage }) {
     setBloodType("");
     setFilterDonorData(donorData);
   };
-
-
-
-
-//  // Tera Post call
-
-//   // yh mock api https://app.mocklab.io/mock-apis/ website
-//   const onSubmitHandler = async () => {
-//     const rawResponse = await fetch("http://localhost:8081/register", {
-//       method: "POST",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         fullName: "Matt",
-//     email: "Matt@gmail.com",
-//     password: "Matt",
-//     city: "las vegas",
-//     state: "CA",
-//     country: "US",
-//     contactNo: "43656155",
-//     fullAddress: "nevada",
-//     bloodType: "B+"
-//       }),
-//     });
-//     const content = await rawResponse.json();
-
-//     console.log(content);
-//   };
 
   return (
     <>

@@ -2,8 +2,8 @@ import Header from "../Components/Header";
 import React, { useState } from "react";
 import UserType from "../Components/Plasma//UserType";
 import RegisterDonor from "../Components/Plasma//RegisterDonor";
-import GetDonor from "../Components/Plasma/GetDonors";
-//import GetDonor from "../Pages/SignIn";
+//import GetDonor from "../Components/Plasma/GetDonors";
+import GetDonor from "../Pages/SignIn";
 
 function Plasma() {
   const [userStage, setUserStage] = useState(0);

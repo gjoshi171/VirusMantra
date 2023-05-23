@@ -58,31 +58,64 @@ app.post("/register", async(req, res)=>{
     }
 });
 
-app.post("/login", async (req, res) => {
+// app.post("/login", async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try{
+//   const user = await User.findOne({email});
+//   console.log(user)
+//   if (user==null) {
+//     return res.json({ error: "User Doesn't Exist" });
+//   }
+//   if (await bcrypt.compare(password, user.password)) {
+//     const token = jwt.sign({}, JWT_SECRET, {
+      
+//     });
+
+//     if (res.status(201)) {
+//       return res.json({ status: "ok", data: token });
+//     } else {
+//       return res.json({ error: "error" });
+//     }
+//   }
+//   res.json({ status: "error", error: "InvAlid Password" });
+// }
+// catch (error){
+//   res.send({status:"error"})
+// }
+// });
+
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  try{
-  const user = await User.findOne({email});
-  console.log(user)
-  if (user==null) {
-    return res.json({ error: "User Doesn't Exist" });
-  }
-  if (await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({}, JWT_SECRET, {
-      
-    });
-
-    if (res.status(201)) {
-      return res.json({ status: "ok", data: token });
-    } else {
-      return res.json({ error: "error" });
+  try {
+    const user = await User.findOne({ email });
+    
+    if (user==null) {
+      return res.status(400).json({ error : "email or password missing "});
     }
+    
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    
+    if ( isPasswordValid) {
+      const token = jwt.sign({}, JWT_SECRET, {
+        // Additional JWT options if needed
+        
+      });
+
+      return res.json({ status: "OK", data: token });
+    }
+    if(user.email==email && !isPasswordValid) {
+      return res.status(400).json({ error: "Wrong password" });
+    }
+    else {
+      return res.status(400).json({ error: "User doesn't exist" });
+    }
+  } catch (error) {
+    console.error('Error occurred while logging in:', error);
+    return res.status(400).json({ status: "error"});
+  //  res.status(500).json({ status: "error" });
   }
-  res.json({ status: "error", error: "InvAlid Password" });
-}
-catch (error){
-  res.send({status:"error"})
-}
 });
 
 
